@@ -1,0 +1,41 @@
+      <m:GetObjectResponse xmlns:m="http://exchange.mule.ptr/">
+         <m:return type="Справочник.ПодразделенияОрганизаций" time="63675193911993" sender="УТ_ЕСН" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <m:recipients>DOCS_VISION</m:recipients>
+            <m:recipients>BITRIX</m:recipients>
+            <m:item type="request">
+               <m:row>
+                  <m:property type="Справочник.ПодразделенияОрганизаций" name="Ссылка" value="89c67074-cb7a-11e5-a58c-002590c8c7ee"/>
+               </m:row>
+            </m:item>
+            <m:item type="Справочник.ПодразделенияОрганизаций">
+               <m:recipients>DOCS_VISION</m:recipients>
+               <m:recipients>BITRIX</m:recipients>
+               <m:row>
+                  <m:property type="Булево" name="Предопределенный" value="Нет"/>
+                  <m:property type="Справочник.ПодразделенияОрганизаций" name="Ссылка" value="89c67074-cb7a-11e5-a58c-002590c8c7ee"/>
+                  <m:property type="Булево" name="ПометкаУдаления" value="Нет"/>
+                  <m:property type="Справочник.Организации" name="Владелец" value="8925687c-6091-11dd-b6a3-0040f4ef707d"/>
+                  <m:property type="Справочник.ПодразделенияОрганизаций" name="Родитель" value="00000000-0000-0000-0000-000000000000"/>
+                  <m:property type="Строка" name="Наименование" value="ОП Горьковское "/>
+                  <m:property type="Строка" name="Код" value="8ОП      "/>
+                  <m:property type="Строка" name="КодПоОКАТО" value="46204000000"/>
+                  <m:property type="Число" name="РайонныйКоэффициент" value="1"/>
+                  <m:property type="Число" name="РайонныйКоэффициентРФ" value="1"/>
+                  <m:property type="Справочник.ТерриториальныеУсловия" name="ТерриториальныеУсловияПФР" value="00000000-0000-0000-0000-000000000000"/>
+                  <m:property type="Число" name="Порядок" value="47"/>
+                  <m:property type="Булево" name="СоответствуетСудамПодФлагомРФ" value="Нет"/>
+                  <m:property type="Строка" name="КодПоОКТМО" value="46704000"/>
+                  <m:property type="Справочник.Организации" name="ОрганизацияРодитель" value="8925687c-6091-11dd-b6a3-0040f4ef707d"/>
+                  <m:property type="Справочник.ПодразделенияОрганизаций" name="ПодразделениеРодитель" value="00000000-0000-0000-0000-000000000000"/>
+                  <m:property type="Строка" name="КПП" value="500145001"/>
+                  <m:property type="Строка" name="ИНН" value="7802348846"/>
+                  <m:property type="Null" name="КодОрганизацииВУУ" value=""/>
+                  <m:property type="Строка" name="НаименованиеПолное" value="ОП Горьковское "/>
+                  <m:property type="Строка" name="Префикс" value="Пв"/>
+                  <m:property type="Строка" name="ВладелецНаименование" value="ООО &quot;СТД &quot;Петрович&quot;"/>
+                  <m:property type="Булево" name="Актуальность" value="Да"/>
+               </m:row>
+            </m:item>
+            <m:hashKey>Справочник.ПодразделенияОрганизаций#89c67074-cb7a-11e5-a58c-002590c8c7ee</m:hashKey>
+         </m:return>
+      </m:GetObjectResponse>

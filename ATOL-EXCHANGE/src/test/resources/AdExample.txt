@@ -1,0 +1,30 @@
+  <m:GetObjectResponse xmlns:m="http://exchange.mule.ptr/">
+     <m:return type="РегистрСведений.ПТР_ФизЛицаДляAD" time="63674832967043" sender="UTC" reply="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <m:item type="request">
+           <m:row>
+              <m:property type="Справочник.ФизическиеЛица" name="ID" value="46a33eb7-0017-11e4-9b2f-002590c8c7ee"/>
+           </m:row>
+        </m:item>
+        <m:item type="РегистрСведений.ПТР_ФизЛицаДляAD">
+           <m:row>
+              <m:property type="Справочник.ФизическиеЛица" name="ID" value="46a33eb7-0017-11e4-9b2f-002590c8c7ee">
+                 <m:sfields type="Строка" name="Наименование" value="Бондаренко Алексей Сергеевич"/>
+                 <m:sfields type="Булево" name="ЭтоГруппа" value="Нет"/>
+                 <m:sfields type="Дата" name="ДатаРождения" value="27.09.1979 0:00:00"/>
+              </m:property>
+              <m:property type="Строка" name="GivenName" value="Сергеевич"/>
+              <m:property type="Строка" name="Surname" value="Бондаренко Алисов"/>
+              <m:property type="Строка" name="Name" value="Алексей"/>
+              <m:property type="Строка" name="PersonalCode" value="123456"/>
+              <m:property type="Строка" name="PersonalSnils" value="123456"/>
+              <m:property type="Строка" name="Title" value="Бондаренко Алексей Сергеевич"/>
+              <m:property type="Строка" name="Department" value="ИТ"/>
+              <m:property type="Строка" name="WorkDepartment" value=""/>
+              <m:property type="Справочник.Подразделения" name="IdDepartment" value="399b405f-3d0f-11e5-84ad-002590c8c7ee"/>
+              <m:property type="Справочник.Подразделения" name="IdParentDepartment" value="dc27d367-3c3d-11e5-84ad-002590c8c7ee"/>
+              <m:property type="Строка" name="Company" value="Петрович СТД"/>
+           </m:row>
+        </m:item>
+        <m:hashKey>РегистрСведений.ПТР_ФизЛицаДляAD#46a33eb7-0017-11e4-9b2f-002590c8c7ee</m:hashKey>
+     </m:return>
+  </m:GetObjectResponse>

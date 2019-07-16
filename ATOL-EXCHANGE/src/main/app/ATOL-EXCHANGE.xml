@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+    <jms:activemq-connector name="MQ-Get" brokerURL="failover:(tcp://10.13.170.24:61616,tcp://10.13.170.25:61616)?jms.prefetchPolicy.queuePrefetch=100" validateConnections="true" maxRedelivery="-1" numberOfConsumers="1" persistentDelivery="true" doc:name="Active MQ" >
+        <reconnect-forever/>
+    </jms:activemq-connector>
+    <mulexml:jaxb-context name="JAXBContext" packageNames="ptr.mule.exchange:ptr.mule.atol" doc:name="JAXB Context"/>
+    <spring:beans>
+        <spring:bean id="MuleService" name="MuleService" class="ptr.mule.exchange.server.MuleService" scope="singleton" />
+        <spring:bean id="HttpRequest" name="HttpRequest" class="ptr.mule.exchange.server.HttpRequest" scope="singleton" init-method="init" destroy-method="destroy"/>
+    	<spring:bean id="JSONMapper" name="JSONMapper" class="com.fasterxml.jackson.databind.ObjectMapper" scope="singleton"/>
+         <spring:bean id="Token" name="Token" class="ptr.mule.atol.Token" scope="singleton" depends-on="HttpRequest, JSONMapper" init-method="init">
+          <spring:property name="livetime" value="23"/>
+         </spring:bean>
+        <spring:bean id="MailSender" name="MailSender" class="ptr.mule.exchange.server.MailSender" init-method="init">
+            <spring:property name="host" value="127.0.01"/>
+            <spring:property name="to" value="alisov1979@gmail.com"/>
+            <spring:property name="from" value="it_task@petrovich.ru"/>
+        </spring:bean>
+        <spring:bean id="QueueMessageSender" name="QueueMessageSender" class="ptr.mule.exchange.server.QueueMessageSender" destroy-method="destroy"/>
+    </spring:beans>
+    <flow name="ATOL-EXCHANGE" initialState="started">
+        <jms:inbound-endpoint exchange-pattern="request-response" queue="atol.exchange" connector-ref="MQ-Get" doc:name="JMS"/>
+        <mulexml:jaxb-xml-to-object-transformer returnClass="ptr.mule.exchange.iExchangable" jaxbContext-ref="JAXBContext" doc:name="XML to JAXB Object"/>
+        <custom-transformer class="ptr.mule.exchange.MessageTransformer" doc:name="Java"/>
+    </flow>
+    <flow name="ATOL-EXCHANGE-GET" initialState="started">
+        <jms:inbound-endpoint exchange-pattern="request-response" queue="atol.get" connector-ref="MQ-Get" doc:name="JMS"/>
+        <scripting:transformer doc:name="Groovy">
+            <scripting:script engine="Groovy"><![CDATA[sleep(5000);
+
+return payload;]]></scripting:script>
+        </scripting:transformer>
+        <custom-transformer class="ptr.mule.exchange.RequestMsgTransformer" doc:name="Java"/>
+    </flow>
+    <flow name="ATOL-EXCHANGE-LOG" >
+        <jms:inbound-endpoint exchange-pattern="request-response" queue="atol.log" connector-ref="MQ-Get" doc:name="JMS"/>
+        <custom-transformer class="ptr.mule.exchange.SendLogTransformer" doc:name="Java"/>
+    </flow>
+      <flow name="ATOL-EXCHANGE-DLQ" >
+        <jms:inbound-endpoint exchange-pattern="request-response" queue="atol.get.DLQ" connector-ref="MQ-Get" doc:name="JMS"/>
+        <scripting:transformer doc:name="Groovy">
+            <scripting:script engine="Groovy"><![CDATA[sleep(60000);
+
+return payload;]]></scripting:script>
+        </scripting:transformer>
+        <custom-transformer class="ptr.mule.exchange.RequestMsgTransformer" doc:name="Java"/>
+    </flow>
+</mule>
